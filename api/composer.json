@@ -1,0 +1,15 @@
+{
+    "name": "paulo-trabalho/api",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Paulo Ricardo",
+            "email": "pr838908@gmail.com"
+        }
+    ],
+    "require": {}
+}
