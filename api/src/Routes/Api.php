@@ -10,25 +10,19 @@ class Api extends Route
     public static function routes()
     {
         self::get('/', function () {
-            self::ok(['message' => 'API is working']);
+            self::ok(['message' => 'Está funcionando... :)']);
         });
 
         // Autenticação
-        self::post('/autenticar', function () {
-            self::ok(['message' => 'Autenticação realizada com sucesso']);
-        });
-        self::post('/cadastrar', function () {
-            self::ok(['message' => 'Cadastro realizado com sucesso']);
-        });
-        self::post('/desautenticar', function () {
-            self::ok(['message' => 'Desautenticação realizada com sucesso']);
-        });
+        self::post('/autenticar', 'App\Controllers\AutenticadorController::autenticar');
+        self::post('/cadastrar', 'App\Controllers\AutenticadorController::cadastrar');
+        self::post('/desautenticar', 'App\Controllers\AutenticadorController::desautenticar');
 
         // instituicao
         self::get('/instituicao', function () {
             self::ok(['message' => 'Listagem de instituicao realizada com sucesso']);
         });
-         self::get('/instituicao/:id', function () {
+        self::get('/instituicao/:id', function () {
             self::ok(['message' => 'Detalhamento de instituicao realizada com sucesso']);
         });
         self::post('/instituicao', function () {
@@ -41,11 +35,11 @@ class Api extends Route
             self::ok(['message' => 'Exclusão de instituicao realizada com sucesso']);
         });
 
-       // usuario
+        // usuario
         self::get('/usuario', function () {
             self::ok(['message' => 'Listagem de usuario realizada com sucesso']);
         });
-         self::get('/usuario/:id', function () {
+        self::get('/usuario/:id', function () {
             self::ok(['message' => 'Detalhamento de usuario realizada com sucesso']);
         });
         self::post('/usuario', function () {
@@ -56,13 +50,13 @@ class Api extends Route
         });
         self::delete('/usuario/:id', function () {
             self::ok(['message' => 'Exclusão de usuario realizada com sucesso']);
-        }); 
+        });
 
         // endereco
         self::get('/endereco', function () {
             self::ok(['message' => 'Listagem de endereco realizada com sucesso']);
         });
-         self::get('/endereco/:id', function () {
+        self::get('/endereco/:id', function () {
             self::ok(['message' => 'Detalhamento de endereco realizada com sucesso']);
         });
         self::post('/endereco', function () {
@@ -79,7 +73,7 @@ class Api extends Route
         self::get('/consulta', function () {
             self::ok(['message' => 'Listagem de consulta realizada com sucesso']);
         });
-         self::get('/consulta/:id', function () {
+        self::get('/consulta/:id', function () {
             self::ok(['message' => 'Detalhamento de consulta realizada com sucesso']);
         });
         self::post('/consulta/marcar', function () {
