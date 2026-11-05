@@ -3,7 +3,7 @@
 namespace App\Controllers;
 use App\Utils\Response;
 
-class Controller extends Response
+abstract class Controller extends Response
 {
     
 }
