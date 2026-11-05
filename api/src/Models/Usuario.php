@@ -6,8 +6,6 @@ class Usuario extends Model
 {
     protected $table = 'usuarios';
 
-    public int $id;
-
     public string $nome;
 
     public int $endereco_id;

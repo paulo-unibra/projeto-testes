@@ -5,8 +5,9 @@ namespace App\Models;
 use App\Utils\Connection;
 
 class Model extends Connection
-{
+{   
     protected $table;
+    public $id;
 
     public function __construct()
     {
@@ -47,6 +48,8 @@ class Model extends Connection
 
             $stmt = $this->connection->prepare($sql);
             $stmt->execute(array_values($params));
+
+            $this->id = $this->connection->lastInsertId();
         } catch (\PDOException $e) {
             throw new \Exception($e->getMessage());
         }

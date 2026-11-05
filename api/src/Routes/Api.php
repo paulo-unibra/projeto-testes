@@ -13,6 +13,10 @@ class Api extends Route
             self::ok(['message' => 'Está funcionando... :)']);
         });
 
+        // perfil
+        self::post('/perfil', 'App\Controllers\PerfilController::cadastrar');
+
+
         // Autenticação
         self::post('/autenticar', 'App\Controllers\AutenticadorController::autenticar');
         self::post('/cadastrar', 'App\Controllers\AutenticadorController::cadastrar');
