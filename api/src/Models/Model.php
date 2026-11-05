@@ -1,17 +1,25 @@
-<?php 
+<?php
 
 namespace App\Models;
 
-class Model
+use App\Utils\Connection;
+
+class Model extends Connection
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public static function find($id)
     {
+
         // Lógica para buscar um registro pelo ID
     }
 
-    public static function all()
+    public function all()
     {
-        // Lógica para buscar todos os registros
+        print_r($this->getConnection());
     }
 
     public static function create($data)

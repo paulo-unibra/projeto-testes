@@ -1,7 +1,7 @@
 <?php
 namespace App\Models;
 
-class Usuario {
+class Usuario extends Model {
     public $id;
     public $nome;
     public $email;

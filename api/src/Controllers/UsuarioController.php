@@ -1,11 +1,15 @@
 <?php 
 
 namespace App\Controllers;
+use App\Models\Usuario;
 
 class UsuarioController extends Controller
 {
     public static function listar()
-    {
+    {   
+        $usuario = new Usuario();
+        $usuarios = $usuario->all();
+
         self::ok(['message' => 'Listagem realizada com sucesso']);
     }
 
