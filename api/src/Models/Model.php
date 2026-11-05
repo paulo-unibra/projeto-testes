@@ -5,7 +5,9 @@ namespace App\Models;
 use App\Utils\Connection;
 
 class Model extends Connection
-{
+{   
+    protected $table;
+
     public function __construct()
     {
         parent::__construct();
@@ -19,7 +21,11 @@ class Model extends Connection
 
     public function all()
     {
-        print_r($this->getConnection());
+        $this->connection = $this->getConnection();
+        $stmt = $this->connection->prepare("SELECT * FROM {$this->table}");
+
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
 
     public static function create($data)
