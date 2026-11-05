@@ -3,30 +3,66 @@
 namespace App\Models;
 
 use App\Utils\Connection;
+use PDO;
 
 class Model extends Connection
-{   
-    protected $table;
-    public $id;
-    protected $existing;
+{
+    protected string $table;
+    public int | string  $id;
+    protected array $existing;
+    protected array $hidden;
 
     public function __construct()
     {
         parent::__construct();
     }
 
-    public static function find($id)
+    public function find(int $id)
     {
+        $smtp = $this->connection->prepare("SELECT * FROM {$this->table} WHERE id = :id");
+        $smtp->execute(['id' => $id]);
 
-        // Lógica para buscar um registro pelo ID
+        $response = $smtp->fetch();
+
+        foreach ($this->hidden as $key) {
+            unset($response[$key]);
+        }
+
+        return $response;
     }
 
-    public function all()
+
+    public function all($paginate = false, $limit = 10)
     {
-        $stmt = $this->connection->prepare("SELECT * FROM {$this->table}");
+        $sql = "SELECT * FROM {$this->table}";
+
+        if ($paginate) {
+            $sql .= " LIMIT :limit";
+        }
+
+        $stmt = $this->connection->prepare($sql);
+
+        if ($paginate) {
+            $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        }
 
         $stmt->execute();
-        return $stmt->fetchAll();
+
+        $data = $stmt->fetchAll();
+
+        if ($paginate) {
+            return [
+                'data' => $data,
+                'meta' => [
+                    'total' => count($data),
+                    'per_page' => $limit,
+                    'current_page' => 1,
+                    'last_page' => ceil(count($data) / $limit)
+                ]
+            ];
+        }
+
+        return $data;
     }
 
     public function create()

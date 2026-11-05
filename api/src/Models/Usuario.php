@@ -4,7 +4,9 @@ namespace App\Models;
 
 class Usuario extends Model
 {
-    protected $table = 'usuarios';
+    protected string $table = 'usuarios';
+
+    protected array $hidden = ['senha'];
 
     public string $nome;
 

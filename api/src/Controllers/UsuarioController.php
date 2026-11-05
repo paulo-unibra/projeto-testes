@@ -11,14 +11,26 @@ class UsuarioController extends Controller
     public static function listar()
     {
         $usuario = new Usuario();
-        $usuarios = $usuario->all();
+        $usuarios = $usuario->all(true, 10);
 
-        self::ok(['message' => 'Listagem realizada com sucesso']);
+        self::ok($usuarios);
     }
 
-    public static function detalhar()
+    public static function detalhar($id)
     {
-        self::ok(['message' => 'Detalhamento realizado com sucesso']);
+        try {
+            $usuario = new Usuario();
+            $usuario = $usuario->find($id);
+
+            if ($usuario) {
+
+                self::ok(['usuario' => $usuario]);
+            } else {
+                self::notFound(['message' => 'Usuário não encontrado']);
+            }
+        } catch (\Exception $e) {
+            self::serverError($e->getMessage());
+        }
     }
 
     public static function cadastrar($request)
@@ -28,6 +40,7 @@ class UsuarioController extends Controller
                 'email' => ['email' => 'Email inválido', 'unique|App\Models\Usuario' => 'Email já cadastrado', 'required' => 'Email é obrigatório'],
                 'nome' => ['required' => 'Nome é obrigatório'],
                 'senha' => ['required' => 'Senha é obrigatória'],
+                'telefone' => ['max:11' => 'Telefone deve ter no máximo 11 caracteres'],
                 'endereco.cep' => ['required' => 'CEP é obrigatório', 'max:8' => 'CEP deve ter no máximo 8 caracteres'],
                 'endereco.logradouro' => ['required' => 'Logradouro é obrigatório', 'max:100' => 'Logradouro deve ter no máximo 100 caracteres'],
                 'endereco.bairro' => ['required' => 'Bairro é obrigatório', 'max:100' => 'Bairro deve ter no máximo 100 caracteres'],

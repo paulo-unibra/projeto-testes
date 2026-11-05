@@ -21,10 +21,11 @@ class Route extends Response
         $url_requested = explode('/', $_SERVER['REQUEST_URI']);
         $url_defined = explode('/', $path);
 
-        $path = self::handleSlug($url_defined, $url_requested);
+        $data = self::handleSlug($url_defined, $url_requested);
+        
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_SERVER['REQUEST_URI'] === $data['path']) {
 
-        if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_SERVER['REQUEST_URI'] === $path) {
-            $callback();
+            $callback($data['params']);
         }
     }
 
@@ -54,13 +55,20 @@ class Route extends Response
 
     public static function handleSlug(array $url_defined, array $url_requested)
     {
+
+        $params = [];
+
         for ($i = 0; $i < count($url_defined); $i++) {
             if (strpos($url_defined[$i], ':') === 0) {
                 $url_defined[$i] = $url_requested[$i];
+
+                $params = $url_requested[$i];
             }
         }
-
         $path = implode('/', $url_defined);
-        return $path;
+        return [
+            'path' => $path,
+            'params' => $params
+        ];
     }
 }
