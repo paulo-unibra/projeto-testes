@@ -20,7 +20,19 @@ class UsuarioController extends Controller
 
     public static function cadastrar()
     {
-        self::ok(['message' => 'Cadastro realizado com sucesso']);
+
+        $usuario = new Usuario();
+
+        $usuario->nome = 'Paulo Ricardo';
+        $usuario->email = 'pr838908@gmail.com';
+        $usuario->senha = '@@123Mudar';
+        $usuario->create();
+        // $usuario->save();
+
+        
+
+
+        // self::ok(['message' => 'Cadastro realizado com sucesso']);
     }
 
     public static function atualizar()

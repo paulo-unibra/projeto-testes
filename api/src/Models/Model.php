@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Utils\Connection;
 
 class Model extends Connection
-{   
+{
     protected $table;
 
     public function __construct()
@@ -21,17 +21,37 @@ class Model extends Connection
 
     public function all()
     {
-        $this->connection = $this->getConnection();
         $stmt = $this->connection->prepare("SELECT * FROM {$this->table}");
 
         $stmt->execute();
         return $stmt->fetchAll();
     }
 
-    public static function create($data)
+    public function create()
     {
-        // Lógica para criar um novo registro
+        try {
+            $params = get_object_vars($this); // $this;
+
+            unset($params['connection'], $params['table']);
+
+            $params = array_filter(
+                $params,
+                fn($value) => $value !== null && $value !== '*connection' && $value !== '*table'
+            );
+
+            $keys = implode(',', array_keys($params));
+
+            $values = implode(',', array_fill(0, count($params), '?'));
+
+            $sql = "INSERT INTO {$this->table} ($keys) VALUES ($values)";
+
+            $stmt = $this->connection->prepare($sql);
+            $stmt->execute(array_values($params));
+        } catch (\PDOException $e) {
+            die($e->getMessage());
+        }
     }
+
 
     public static function update($id, $data)
     {

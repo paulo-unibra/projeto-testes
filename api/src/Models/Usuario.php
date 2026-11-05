@@ -1,11 +1,30 @@
 <?php
+
 namespace App\Models;
 
-class Usuario extends Model {
+class Usuario extends Model
+{
     protected $table = 'usuarios';
 
-    public $id;
-    public $nome;
-    public $email;
-    public $senha;
+    public int $id;
+
+    public string $nome;
+
+    public int $endereco_id;
+
+    public string $telefone;
+
+    public string $data_cadastro;
+
+    public string $email;
+
+    public string $senha;
+
+    public int $usuario_perfil_id;
+
+    public string $criado_em;
+
+    public string $atualizado_em;
+    
+    public string $apagado_em;
 }
