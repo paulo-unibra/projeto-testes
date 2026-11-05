@@ -8,6 +8,7 @@ class Model extends Connection
 {   
     protected $table;
     public $id;
+    protected $existing;
 
     public function __construct()
     {
@@ -64,5 +65,19 @@ class Model extends Connection
     public static function delete($id)
     {
         // Lógica para excluir um registro existente
+    }
+
+    public function where($column, $value)
+    {
+        $stmt = $this->connection->prepare("SELECT * FROM {$this->table} WHERE {$column} = :value");
+        $stmt->execute(['value' => $value]);
+
+        $this->existing = $stmt->fetch();
+        return $this;
+    }
+
+    public function exists()
+    {
+        return $this->existing;
     }
 }

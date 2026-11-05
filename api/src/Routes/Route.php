@@ -7,9 +7,11 @@ use App\Utils\Response;
 class Route extends Response
 {
     public static function post($path, $callback)
-    {
+    {   
+        $data = json_decode(file_get_contents('php://input'), true);
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SERVER['REQUEST_URI'] === $path) {
-            $callback();
+            $callback($data);
         }
     }
 

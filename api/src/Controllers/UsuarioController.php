@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Usuario;
 use App\Models\Endereco;
+use App\Utils\Validator;
 
 class UsuarioController extends Controller
 {
@@ -20,25 +21,43 @@ class UsuarioController extends Controller
         self::ok(['message' => 'Detalhamento realizado com sucesso']);
     }
 
-    public static function cadastrar()
+    public static function cadastrar($request)
     {
         try {
+            Validator::validate($request, [
+                'email' => ['email' => 'Email inválido', 'unique|App\Models\Usuario' => 'Email já cadastrado', 'required' => 'Email é obrigatório'],
+                'nome' => ['required' => 'Nome é obrigatório'],
+                'senha' => ['required' => 'Senha é obrigatória'],
+                'endereco.cep' => ['required' => 'CEP é obrigatório', 'max:8' => 'CEP deve ter no máximo 8 caracteres'],
+                'endereco.logradouro' => ['required' => 'Logradouro é obrigatório', 'max:100' => 'Logradouro deve ter no máximo 100 caracteres'],
+                'endereco.bairro' => ['required' => 'Bairro é obrigatório', 'max:100' => 'Bairro deve ter no máximo 100 caracteres'],
+                'endereco.estado' => ['required' => 'Estado é obrigatório', 'max:2' => 'Estado deve ter no máximo 2 caracteres'],
+                'endereco.cidade' => ['required' => 'Cidade é obrigatório', 'max:100' => 'Cidade deve ter no máximo 100 caracteres'],
+                'endereco.numero' => ['required' => 'Número é obrigatório', 'max:10' => 'Número deve ter no máximo 10 caracteres'],
+            ]);
+
+            if (Validator::hasErrors()) {
+                return self::badRequest(Validator::getErrors());
+            }
+
             $endereco = new Endereco();
 
-            $endereco->logradouro = 'Rua 1';
-            $endereco->numero = '123';
-            $endereco->bairro = 'Bairro 1';
-            $endereco->cidade = 'Cidade 1';
-            $endereco->estado = 'PE';
-            $endereco->cep = '12345678';
+            $endereco->cep = $request['endereco']['cep'];
+            $endereco->logradouro = $request['endereco']['logradouro'];
+            $endereco->bairro = $request['endereco']['bairro'];
+            $endereco->estado = $request['endereco']['estado'];
+            $endereco->cidade = $request['endereco']['cidade'];
+            $endereco->numero = $request['endereco']['numero'];
 
-            $endereco->create(['trx' => true]);
+            $endereco->create();
 
             $usuario = new Usuario();
 
-            $usuario->nome = 'Paulo Ricardo';
-            $usuario->email = 'pr838908@gmail.com';
-            $usuario->senha = '@@123Mudar';
+            $usuario->email = $request['email'];
+            $usuario->nome = $request['nome'];
+            $usuario->telefone = $request['telefone'];
+            $usuario->senha = password_hash($request['senha'], PASSWORD_DEFAULT);
+
             $usuario->endereco_id = $endereco->id;
             $usuario->usuario_perfil_id = 1;
             $usuario->create();
