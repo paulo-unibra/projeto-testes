@@ -19,71 +19,32 @@ class Api extends Route
         self::post('/desautenticar', 'App\Controllers\AutenticadorController::desautenticar');
 
         // instituicao
-        self::get('/instituicao', function () {
-            self::ok(['message' => 'Listagem de instituicao realizada com sucesso']);
-        });
-        self::get('/instituicao/:id', function () {
-            self::ok(['message' => 'Detalhamento de instituicao realizada com sucesso']);
-        });
-        self::post('/instituicao', function () {
-            self::ok(['message' => 'Cadastro de instituicao realizado com sucesso']);
-        });
-        self::put('/instituicao/:id', function () {
-            self::ok(['message' => 'Atualização de instituicao realizada com sucesso']);
-        });
-        self::delete('/instituicao', function () {
-            self::ok(['message' => 'Exclusão de instituicao realizada com sucesso']);
-        });
+        self::get('/instituicao', 'App\Controllers\InstituicaoController::listar');
+        self::get('/instituicao/:id', 'App\Controllers\InstituicaoController::detalhar');
+        self::post('/instituicao', 'App\Controllers\InstituicaoController::cadastrar');
+        self::put('/instituicao/:id', 'App\Controllers\InstituicaoController::atualizar');
+        self::delete('/instituicao/:id', 'App\Controllers\InstituicaoController::excluir');
 
         // usuario
-        self::get('/usuario', function () {
-            self::ok(['message' => 'Listagem de usuario realizada com sucesso']);
-        });
-        self::get('/usuario/:id', function () {
-            self::ok(['message' => 'Detalhamento de usuario realizada com sucesso']);
-        });
-        self::post('/usuario', function () {
-            self::ok(['message' => 'Cadastro de usuario realizado com sucesso']);
-        });
-        self::put('/usuario/:id', function () {
-            self::ok(['message' => 'Atualização de usuario realizada com sucesso']);
-        });
-        self::delete('/usuario/:id', function () {
-            self::ok(['message' => 'Exclusão de usuario realizada com sucesso']);
-        });
+        self::get('/usuario', 'App\Controllers\UsuarioController::listar');
+        self::get('/usuario/:id', 'App\Controllers\UsuarioController::detalhar');
+        self::post('/usuario', 'App\Controllers\UsuarioController::cadastrar');
+        self::put('/usuario/:id', 'App\Controllers\UsuarioController::atualizar');
+        self::delete('/usuario/:id', 'App\Controllers\UsuarioController::excluir');
 
+   
         // endereco
-        self::get('/endereco', function () {
-            self::ok(['message' => 'Listagem de endereco realizada com sucesso']);
-        });
-        self::get('/endereco/:id', function () {
-            self::ok(['message' => 'Detalhamento de endereco realizada com sucesso']);
-        });
-        self::post('/endereco', function () {
-            self::ok(['message' => 'Cadastro de endereco realizado com sucesso']);
-        });
-        self::put('/endereco/:id', function () {
-            self::ok(['message' => 'Atualização de endereco realizada com sucesso']);
-        });
-        self::delete('/endereco/:id', function () {
-            self::ok(['message' => 'Exclusão de endereco realizada com sucesso']);
-        });
+        self::get('/endereco', 'App\Controllers\EnderecoController::listar');
+        self::get('/endereco/:id', 'App\Controllers\EnderecoController::detalhar');
+        self::post('/endereco', 'App\Controllers\EnderecoController::cadastrar');
+        self::put('/endereco/:id', 'App\Controllers\EnderecoController::atualizar');
+        self::delete('/endereco/:id', 'App\Controllers\EnderecoController::excluir');
 
         // consulta
-        self::get('/consulta', function () {
-            self::ok(['message' => 'Listagem de consulta realizada com sucesso']);
-        });
-        self::get('/consulta/:id', function () {
-            self::ok(['message' => 'Detalhamento de consulta realizada com sucesso']);
-        });
-        self::post('/consulta/marcar', function () {
-            self::ok(['message' => 'Marcação de consulta realizada com sucesso']);
-        });
-        self::delete('/consulta/desmarcar/:id', function () {
-            self::ok(['message' => 'Desmarcação de consulta realizada com sucesso']);
-        });
-        self::put('/consulta/remarcar/:id', function () {
-            self::ok(['message' => 'Remarcação de consulta realizada com sucesso']);
-        });
+        self::get('/consulta', 'App\Controllers\ConsultaController::listar');
+        self::get('/consulta/:id', 'App\Controllers\ConsultaController::detalhar');
+        self::post('/consulta/marcar', 'App\Controllers\ConsultaController::marcar');
+        self::delete('/consulta/desmarcar/:id', 'App\Controllers\ConsultaController::desmarcar');
+        self::put('/consulta/remarcar/:id', 'App\Controllers\ConsultaController::remarcar');
     }
 }
