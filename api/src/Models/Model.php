@@ -48,7 +48,7 @@ class Model extends Connection
             $stmt = $this->connection->prepare($sql);
             $stmt->execute(array_values($params));
         } catch (\PDOException $e) {
-            die($e->getMessage());
+            throw new \Exception($e->getMessage());
         }
     }
 

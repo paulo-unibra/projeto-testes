@@ -1,12 +1,13 @@
-<?php 
+<?php
 
 namespace App\Controllers;
+
 use App\Models\Usuario;
 
 class UsuarioController extends Controller
 {
     public static function listar()
-    {   
+    {
         $usuario = new Usuario();
         $usuarios = $usuario->all();
 
@@ -21,22 +22,27 @@ class UsuarioController extends Controller
     public static function cadastrar()
     {
 
-        $usuario = new Usuario();
+        try {
+            $usuario = new Usuario();
 
-        $usuario->nome = 'Paulo Ricardo';
-        $usuario->email = 'pr838908@gmail.com';
-        $usuario->senha = '@@123Mudar';
-        $usuario->create();
+            $usuario->nome = 'Paulo Ricardo';
+            $usuario->email = 'pr838908@gmail.com';
+            $usuario->senha = '@@123Mudar';
+            $usuario->create();
+        } catch (\Exception $th) {
+            echo 1;
+            self::serverError(['message' => 'Erro ao cadastrar usuário: ' . $th->getMessage()]);
+        }
         // $usuario->save();
 
-        
+
 
 
         // self::ok(['message' => 'Cadastro realizado com sucesso']);
     }
 
     public static function atualizar()
-    {   
+    {
         self::ok(['message' => 'Atualização realizada com sucesso']);
     }
 

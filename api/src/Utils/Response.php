@@ -57,6 +57,7 @@ class Response
         self::json($data, ResponseCode::NOT_FOUND);
     }
 
+
     public static function serverError($data)
     {
         self::json($data, ResponseCode::SERVER_ERROR);
