@@ -8,13 +8,36 @@ use App\Utils\Validator;
 
 class UsuarioController extends Controller
 {
-    public static function listar()
+    public static function listar($id, $request)
     {
         $usuario = new Usuario();
-        $usuarios = $usuario->all(true, 10);
+
+        $usuario = $usuario->query();
+        // if ($id) {
+        //     $usuario = $usuario->where('id', $id);
+        // }
+
+        // if ($request['nome']) {
+        //     $usuario = $usuario->whereLike('nome', "%$request%");
+        // }   
+
+        // if ($request['email']) {
+        //     $usuario = $usuario->whereLike('email', "%$request%");
+        // }
+
+        // if ($request['telefone']) {
+        //     $usuario = $usuario->whereLike('telefone', "%$request%");
+        // }
+
+
+
+        $usuarios = $usuario->get();
+
+
 
         self::ok($usuarios);
     }
+
 
     public static function detalhar($id)
     {

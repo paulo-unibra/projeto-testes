@@ -11,5 +11,7 @@
             "email": "pr838908@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "illuminate/database": "^13.40"
+    }
 }

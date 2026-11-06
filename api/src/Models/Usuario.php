@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
+
 class Usuario extends Model
 {
-    protected string $table = 'usuarios';
+    // protected string $table = 'usuarios';
+    protected $table = 'usuarios';
 
-    protected array $hidden = ['senha'];
+
+    protected $hidden = ['senha'];
 
     public string $nome;
 
@@ -25,6 +29,6 @@ class Usuario extends Model
     public string $criado_em;
 
     public string $atualizado_em;
-    
+
     public string $apagado_em;
 }

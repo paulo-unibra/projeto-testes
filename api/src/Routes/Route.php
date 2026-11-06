@@ -17,15 +17,23 @@ class Route extends Response
 
 
     public static function get($path, $callback)
-    {
-        $url_requested = explode('/', $_SERVER['REQUEST_URI']);
+    {   
+        $pathWithParams = explode('?', $_SERVER['REQUEST_URI']);
+        $requestParams = explode('&', $pathWithParams[1]);
+        $handledParams = [];
+
+        foreach ($requestParams as $param) {
+            $param = explode('=', $param);
+            $handledParams[$param[0]] = $param[1];
+        }
+
+        $url_requested = explode('/', $pathWithParams[0]);
         $url_defined = explode('/', $path);
 
         $data = self::handleSlug($url_defined, $url_requested);
         
-        if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_SERVER['REQUEST_URI'] === $data['path']) {
-
-            $callback($data['params']);
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && $pathWithParams[0] === $data['path']) {
+            $callback($data['params'], $handledParams);
         }
     }
 
