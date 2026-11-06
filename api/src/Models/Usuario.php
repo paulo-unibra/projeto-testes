@@ -9,6 +9,11 @@ class Usuario extends Model
     // protected string $table = 'usuarios';
     protected $table = 'usuarios';
 
+    const CREATED_AT = 'criado_em';
+    const UPDATED_AT = 'atualizado_em';
+    const DELETED_AT = 'apagado_em';
+
+    protected $fillable = ['nome', 'endereco_id', 'telefone', 'data_cadastro', 'email', 'senha', 'usuario_perfil_id'];
 
     protected $hidden = ['senha'];
 

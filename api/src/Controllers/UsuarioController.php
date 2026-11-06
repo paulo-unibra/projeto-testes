@@ -5,35 +5,32 @@ namespace App\Controllers;
 use App\Models\Usuario;
 use App\Models\Endereco;
 use App\Utils\Validator;
+use Illuminate\Database\Capsule\Manager as DB;
 
 class UsuarioController extends Controller
 {
     public static function listar($id, $request)
     {
         $usuario = new Usuario();
+        $usuario->query();
 
-        $usuario = $usuario->query();
-        // if ($id) {
-        //     $usuario = $usuario->where('id', $id);
-        // }
+        if ($id || $request['id']) {
+            $usuario = $usuario->where('id', '=', $request['id']);
+        }
 
-        // if ($request['nome']) {
-        //     $usuario = $usuario->whereLike('nome', "%$request%");
-        // }   
+        if ($request['nome']) {
+            $usuario = $usuario->where('nome', 'like', "%" . $request['nome'] . "%");
+        }
 
-        // if ($request['email']) {
-        //     $usuario = $usuario->whereLike('email', "%$request%");
-        // }
+        if ($request['email']) {
+            $usuario = $usuario->where('email', 'like', "%" . $request['email'] . "%");
+        }
 
-        // if ($request['telefone']) {
-        //     $usuario = $usuario->whereLike('telefone', "%$request%");
-        // }
+        if ($request['telefone']) {
+            $usuario = $usuario->where('telefone', 'like', "%" . $request['telefone'] . "%");
+        }
 
-
-
-        $usuarios = $usuario->get();
-
-
+        $usuarios = $usuario->paginate();
 
         self::ok($usuarios);
     }
@@ -58,6 +55,9 @@ class UsuarioController extends Controller
 
     public static function cadastrar($request)
     {
+
+        DB::beginTransaction();
+
         try {
             Validator::validate($request, [
                 'email' => ['email' => 'Email inválido', 'unique|App\Models\Usuario' => 'Email já cadastrado', 'required' => 'Email é obrigatório'],
@@ -78,29 +78,29 @@ class UsuarioController extends Controller
 
             $endereco = new Endereco();
 
-            $endereco->cep = $request['endereco']['cep'];
-            $endereco->logradouro = $request['endereco']['logradouro'];
-            $endereco->bairro = $request['endereco']['bairro'];
-            $endereco->estado = $request['endereco']['estado'];
-            $endereco->cidade = $request['endereco']['cidade'];
-            $endereco->numero = $request['endereco']['numero'];
+            $endereco = $endereco->create([
+                'cep' => $request['endereco']['cep'],
+                'logradouro' => $request['endereco']['logradouro'],
+                'bairro' => $request['endereco']['bairro'],
+                'estado' => $request['endereco']['estado'],
+                'cidade' => $request['endereco']['cidade'],
+                'numero' => $request['endereco']['numero'],
+            ]);
 
-            $endereco->create();
+            $usuario = new Usuario([
+                'email' => $request['email'],
+                'nome' => $request['nome'],
+                'telefone' => $request['telefone'],
+                'senha' => password_hash($request['senha'], PASSWORD_DEFAULT),
+                'endereco_id' => $endereco->id,
+                'usuario_perfil_id' => 1
+            ]);
 
-            $usuario = new Usuario();
-
-            $usuario->email = $request['email'];
-            $usuario->nome = $request['nome'];
-            $usuario->telefone = $request['telefone'];
-            $usuario->senha = password_hash($request['senha'], PASSWORD_DEFAULT);
-
-            $usuario->endereco_id = $endereco->id;
-            $usuario->usuario_perfil_id = 1;
-            $usuario->create();
+            DB::commit();
 
             self::ok(['message' => 'Cadastro realizado com sucesso']);
         } catch (\Exception $th) {
-            echo 1;
+            DB::rollBack();
             self::serverError(['message' => 'Erro ao cadastrar usuário: ' . $th->getMessage()]);
         }
         // $usuario->save();

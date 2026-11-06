@@ -3,7 +3,7 @@
         'name' => 'paulo-trabalho/api',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '29c7c27ca66056933d8f0c2e1ec6d80d42f34c81',
+        'reference' => '6b6938df631a4124e06af24381fb1b8cbdfca4fd',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -91,6 +91,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'illuminate/pagination' => array(
+            'pretty_version' => 'v13.40.0',
+            'version' => '13.40.0.0',
+            'reference' => '79a4d36c4b2af72355be545527b8d45eacd824c9',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../illuminate/pagination',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'illuminate/reflection' => array(
             'pretty_version' => 'v13.40.0',
             'version' => '13.40.0.0',
@@ -130,7 +139,7 @@
         'paulo-trabalho/api' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '29c7c27ca66056933d8f0c2e1ec6d80d42f34c81',
+            'reference' => '6b6938df631a4124e06af24381fb1b8cbdfca4fd',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

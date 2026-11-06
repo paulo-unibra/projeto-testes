@@ -2,9 +2,24 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
+
 class Endereco extends Model
 {
     protected $table = 'enderecos';
+
+    const CREATED_AT = 'criado_em';
+    const UPDATED_AT = 'atualizado_em';
+
+    protected $fillable = [
+        'cep',
+        'logradouro',
+        'bairro',
+        'estado',
+        'cidade',
+        'numero',
+        'complemento',
+    ];
 
     public string $cep;
 

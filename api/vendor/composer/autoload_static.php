@@ -49,6 +49,7 @@ class ComposerStaticInitbd05f416bc8aed941efe4a3e3722c04d
         'I' => 
         array (
             'Illuminate\\Support\\' => 19,
+            'Illuminate\\Pagination\\' => 22,
             'Illuminate\\Database\\' => 20,
             'Illuminate\\Contracts\\' => 21,
             'Illuminate\\Container\\' => 21,
@@ -132,6 +133,10 @@ class ComposerStaticInitbd05f416bc8aed941efe4a3e3722c04d
             2 => __DIR__ . '/..' . '/illuminate/collections',
             3 => __DIR__ . '/..' . '/illuminate/macroable',
             4 => __DIR__ . '/..' . '/illuminate/conditionable',
+        ),
+        'Illuminate\\Pagination\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/illuminate/pagination',
         ),
         'Illuminate\\Database\\' => 
         array (
